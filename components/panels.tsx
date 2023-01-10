@@ -13,7 +13,7 @@ export const CodePanels = ({ userTheme, fileStates }: any) => {
                         }}
                         text={fileStates[tab] ? window.localStorage.getItem(tab) : `Loading file...${"\n".repeat(100)}`}
                         theme={userTheme}
-                        language={"tsx"}
+                        language={tab.split(/\./)[1]}
                         showLineNumbers
                         wrapLines
                     />
