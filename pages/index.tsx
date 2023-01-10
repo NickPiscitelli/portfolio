@@ -1,4 +1,3 @@
-
 import { Navbar } from "../components/nav";
 import { Tab } from "@headlessui/react";
 import { CodeBlock, dracula } from "react-code-blocks";
@@ -8,11 +7,10 @@ import { FileTabs } from "../components/tabs";
 import { CodePanels } from "../components/panels";
 import { fetchSourceFile } from "../components/fetcher";
 
-type FileStates = Record<string, boolean>
+type FileStates = Record<string, boolean>;
 
 export default function Home() {
   const [fileStates, setFileStates] = useState<FileStates>({
-
     "Introduction.tsx": false,
     "pages/index.tsx": false,
     "package.json": false,
@@ -24,7 +22,7 @@ export default function Home() {
     "components/loader.tsx": false,
     "components/name.tsx": false,
     "components/picker.tsx": false,
-    "styles/globals.css": false
+    "styles/globals.css": false,
   });
 
   const [file, setFile] = useState("Introduction.tsx");
@@ -32,12 +30,19 @@ export default function Home() {
 
   useEffect(() => {
     fetchSourceFile(file, fileStates, setFileStates);
-    return () => { };
+    return () => {};
   }, [file]);
 
   useEffect(() => {
-    window.innerWidth > 700 && setTimeout(() => (document.querySelector('[data-tab="pages/index.tsx"]') as any).click(), 500)
-  })
+    window.innerWidth > 700 &&
+      setTimeout(
+        () =>
+          (
+            document.querySelector('[data-tab="pages/index.tsx"]') as any
+          ).click(),
+        500
+      );
+  });
 
   return (
     <main>

@@ -1,22 +1,25 @@
 import { Introduction } from "../components/intro";
 
-export const fetchSourceFile = async (file: string, fileStates: Record<string, boolean>, setFileStates: Function) => {
-
-    if (!localStorage.getItem(file)) {
-
-        let contents;
-        if (file === "Introduction.tsx") {
-            contents = `${Introduction}${"\n".repeat(50)}`
-        } else {
-            const resp = await fetch(`https://raw.githubusercontent.com/NickPiscitelli/portfolio/main/${file}`);
-            contents = await resp.text();
-        }
-
-        localStorage.setItem(file, contents + "\n".repeat(50));
+export const fetchSourceFile = async (
+  file: string,
+  fileStates: Record<string, boolean>,
+  setFileStates: Function
+) => {
+  if (!localStorage.getItem(file)) {
+    let contents;
+    if (file === "Introduction.tsx") {
+      contents = `${Introduction}${"\n".repeat(50)}`;
+    } else {
+      const resp = await fetch(
+        `https://raw.githubusercontent.com/NickPiscitelli/portfolio/main/${file}`
+      );
+      contents = await resp.text();
     }
 
-    fileStates[file] = true;
+    localStorage.setItem(file, contents + "\n".repeat(50));
+  }
 
-    setFileStates({ ...fileStates });
-}
+  fileStates[file] = true;
 
+  setFileStates({ ...fileStates });
+};
