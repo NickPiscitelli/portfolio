@@ -12,8 +12,9 @@ type FileStates = Record<string, boolean>
 
 export default function Home() {
   const [fileStates, setFileStates] = useState<FileStates>({
+
+    "Introduction.tsx": false,
     "pages/index.tsx": false,
-    "Introduction.md": false,
     "package.json": false,
     "pages/_app.tsx": false,
     "icons/github.tsx": false,
@@ -26,7 +27,7 @@ export default function Home() {
     "styles/globals.css": false
   });
 
-  const [file, setFile] = useState("pages/index");
+  const [file, setFile] = useState("Introduction.tsx");
   const [userTheme, setUserTheme] = useState(dracula);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function Home() {
   }, [file]);
 
   useEffect(() => {
-    window.innerWidth < 700 && (document.querySelector('[data-tab="introduction"]') as any).click()
+    window.innerWidth > 700 && setTimeout(() => (document.querySelector('[data-tab="pages/index.tsx"]') as any).click(), 500)
   }, [])
 
   return (

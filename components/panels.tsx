@@ -5,7 +5,7 @@ export const CodePanels = ({ userTheme, fileStates }: any) => {
     return (
         <Tab.Panels className="tabbed-code-pane scrollbar-hide">
             {Object.keys(fileStates).map((tab) => (
-                <Tab.Panel className={`${tab === "Introduction.md" && "lg:hidden"} text-sm h-[80vh]`}>
+                <Tab.Panel className={`${tab === "Introduction.tsx" && "lg:hidden"} text-sm h-[80vh]`}>
                     <CodeBlock
                         customStyle={{
                             borderRadius: 0,

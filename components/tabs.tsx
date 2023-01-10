@@ -10,7 +10,7 @@ export const FileTabs = ({ fileStates, setFile }: any) => {
                         <div
                             onClick={() => setFile(tab)}
                             data-tab={tab}
-                            className={`${tab === "Introduction.md" && "lg:hidden"} outline-none text-left relative pl-8 py-3 grow min-w-[200px] border-r border-dracula-light text-xs bg-dracula text-white`}
+                            className={`${tab === "Introduction.tsx" && "lg:hidden"} outline-none text-left relative pl-8 py-3 grow min-w-[200px] border-r border-dracula-light text-xs bg-dracula text-white`}
                         >
                             {tab}
                             {selected && (
