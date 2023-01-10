@@ -8,15 +8,11 @@ export const fetchSourceFile = async (file: string, fileStates: Record<string, b
         if (file === "Introduction.md") {
             contents = `${Introduction}${"\n".repeat(50)}`
         } else {
-            const resp = await fetch(
-                0
-                    ? `https://raw.githubusercontent.com/NickPiscitelli/portfolio/master/${file}.tsx`
-                    : "https://raw.githubusercontent.com/NickPiscitelli/Glider.js/master/glider.js"
-            );
+            const resp = await fetch(`https://raw.githubusercontent.com/NickPiscitelli/portfolio/main/${file}`);
             contents = await resp.text();
         }
 
-        localStorage.setItem(file, contents);
+        localStorage.setItem(file, contents + "\n".repeat(50));
     }
 
     fileStates[file] = true;

@@ -12,17 +12,17 @@ type FileStates = Record<string, boolean>
 
 export default function Home() {
   const [fileStates, setFileStates] = useState<FileStates>({
+    "pages/index.tsx": false,
     "Introduction.md": false,
     "package.json": false,
     "pages/_app.tsx": false,
-    "pages/index": false,
-    "icons/github": false,
-    "icons/terminal": false,
-    "components/nav": false,
-    "components/head": false,
-    "components/loader": false,
-    "components/name": false,
-    "components/picker": false,
+    "icons/github.tsx": false,
+    "icons/terminal.tsx": false,
+    "components/nav.tsx": false,
+    "components/head.tsx": false,
+    "components/loader.tsx": false,
+    "components/name.tsx": false,
+    "components/picker.tsx": false,
     "styles/globals.css": false
   });
 
