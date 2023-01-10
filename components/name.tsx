@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, memo } from "react";
+import { useEffect, useState } from "react";
 
 const name = "Nick Piscitelli"
 const fullNameLetters = name.split("");

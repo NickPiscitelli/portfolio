@@ -4,8 +4,8 @@ import { Fragment } from "react";
 export const FileTabs = ({ fileStates, setFile }: any) => {
     return (
         <Tab.List className="relative z-20 shadow-[0_4px_2px_-2px_rgba(0,0,0,0.3)] flex relative overflow-x-auto scrollbar-hide">
-            {Object.keys(fileStates).map((tab) => (
-                <Tab as={Fragment}>
+            {Object.keys(fileStates).map((tab, i) => (
+                <Tab key={i} as={Fragment}>
                     {({ selected }) => (
                         <div
                             onClick={() => setFile(tab)}

@@ -37,7 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     window.innerWidth > 700 && setTimeout(() => (document.querySelector('[data-tab="pages/index.tsx"]') as any).click(), 500)
-  }, [])
+  })
 
   return (
     <main>
