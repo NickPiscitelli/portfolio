@@ -7,9 +7,9 @@ export const Navbar = ({ themeSwitcher, userTheme }: any) => {
   return (
     <nav
       id="main-nav"
-      className="flex shadow border-dracula-light border-b justify-between bg-dracula-dark py-3 px-6"
+      className="flex flex-wrap md:flex-nowrap shadow border-dracula-light border-b justify-between bg-dracula-dark py-3 px-6"
     >
-      <div className="flex self-center">
+      <div className="flex mb-2 md:mb-0 self-center">
         <div className="w-[25px] h-[25px] relative top-[2px]">
           <TerminalIcon />
         </div>

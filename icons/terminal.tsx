@@ -4,9 +4,9 @@ export const TerminalIcon = () => {
       <path
         d="M4 17L10 11L4 5M12 19H20"
         stroke="#ffffff"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

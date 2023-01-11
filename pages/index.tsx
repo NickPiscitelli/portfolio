@@ -30,7 +30,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchSourceFile(file, fileStates, setFileStates);
-    return () => {};
+    return () => { };
   }, [file]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function Home() {
           ).click(),
         500
       );
-  });
+  }, []);
 
   return (
     <main>

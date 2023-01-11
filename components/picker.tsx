@@ -67,13 +67,9 @@ export const ThemePicker = ({ themeSwitcher, userTheme }: any) => {
         className="text-white  bg-dracula ml-2"
       >
         {themes.map((theme, i) =>
-          shallowCompare(fetchThemeVariable(theme), userTheme) ? (
-            <option key={i} selected>
-              {theme}
-            </option>
-          ) : (
-            <option key={i}>{theme}</option>
-          )
+          <option key={i} selected={shallowCompare(fetchThemeVariable(theme), userTheme)}>
+            {theme}
+          </option>
         )}
       </select>
     </div>
