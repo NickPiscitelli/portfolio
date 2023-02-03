@@ -9,6 +9,7 @@ specifiers:
   autoprefixer: ^10.4.13
   eslint: 8.31.0
   eslint-config-next: 13.1.1
+  fs: 0.0.1-security
   next: 13.1.1
   postcss: ^8.4.20
   react: 18.2.0
@@ -26,6 +27,7 @@ dependencies:
   '@types/react-dom': 18.0.10
   eslint: 8.31.0
   eslint-config-next: 13.1.1_iukboom6ndih5an6iafl45j2fe
+  fs: 0.0.1-security
   next: 13.1.1_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-code-blocks: 0.0.9-0_biqbaboplfbrettd7655fr4n2y
@@ -1478,6 +1480,10 @@ packages:
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
+    dev: false
+
+  /fs/0.0.1-security:
+    resolution: {integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==}
     dev: false
 
   /fsevents/2.3.2:

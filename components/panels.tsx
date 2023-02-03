@@ -1,28 +1,41 @@
 import { Tab } from "@headlessui/react";
 import { CodeBlock } from "react-code-blocks";
+import { FileStates, FileState } from "../types";
 
-export const CodePanels = ({ userTheme, fileStates }: any) => {
+export const CodePanels = ({
+  userTheme,
+  panels,
+}: {
+  userTheme: any;
+  panels: FileStates;
+}) => {
+  function sizePost(code: string) {
+    const lines = code.split("\n");
+    if (lines.length < 50) code += "\n".repeat(50 - lines.length);
+    return code;
+  }
+
   return (
     <Tab.Panels className="tabbed-code-pane scrollbar-hide">
-      {Object.keys(fileStates).map((tab, i) => (
+      {panels.map((tab, i) => (
         <Tab.Panel
           key={i}
           className={`${
-            tab === "Introduction.tsx" && "lg:hidden"
+            tab.title === "Introduction.tsx" && "lg:hidden"
           } text-sm h-[80vh]`}
         >
           <CodeBlock
             customStyle={{
+              wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
+              paddingTop: 5,
+              paddingRight: 26,
               borderRadius: 0,
               zIndex: 10,
             }}
-            text={
-              fileStates[tab]
-                ? window.localStorage.getItem(tab)
-                : `Loading file...${"\n".repeat(100)}`
-            }
+            text={sizePost(tab.body)}
             theme={userTheme}
-            language={tab.split(/\./)[1]}
+            language={tab.title.split(/\./)[1]}
             showLineNumbers
             wrapLines
           />

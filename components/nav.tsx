@@ -2,6 +2,7 @@ import { GithubIcon } from "../icons/github";
 import { ThemePicker } from "../components/picker";
 import { TerminalIcon } from "../icons/terminal";
 import { HackerName } from "./name";
+import { BlogIcon } from "../icons/blog";
 
 export const Navbar = ({ themeSwitcher, userTheme }: any) => {
   return (
@@ -14,7 +15,7 @@ export const Navbar = ({ themeSwitcher, userTheme }: any) => {
           <TerminalIcon />
         </div>
         <div className="text-xl text-white font-bold align-middle self-center pl-2">
-          <HackerName />
+          {/* <HackerName /> */}
         </div>
       </div>
 

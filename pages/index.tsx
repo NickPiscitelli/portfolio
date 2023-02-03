@@ -2,36 +2,22 @@ import { Navbar } from "../components/nav";
 import { Tab } from "@headlessui/react";
 import { CodeBlock, dracula } from "react-code-blocks";
 import { useEffect, useState } from "react";
-import { Introduction } from "../components/intro";
+import { Introduction } from "../intro/intro";
 import { FileTabs } from "../components/tabs";
 import { CodePanels } from "../components/panels";
-import { fetchSourceFile } from "../components/fetcher";
+import { readFileSync, readdirSync } from "fs";
+import { FileState, FileStates } from "../types";
 
-type FileStates = Record<string, boolean>;
-
-export default function Home() {
-  const [fileStates, setFileStates] = useState<FileStates>({
-    "Introduction.tsx": false,
-    "pages/index.tsx": false,
-    "package.json": false,
-    "pages/_app.tsx": false,
-    "icons/github.tsx": false,
-    "icons/terminal.tsx": false,
-    "components/nav.tsx": false,
-    "components/head.tsx": false,
-    "components/loader.tsx": false,
-    "components/name.tsx": false,
-    "components/picker.tsx": false,
-    "styles/globals.css": false,
-  });
-
-  const [file, setFile] = useState("Introduction.tsx");
+export default function Home({ files }: { files: FileStates }) {
+  const [fileStates, setFileStates] = useState<FileStates>(files);
   const [userTheme, setUserTheme] = useState(dracula);
 
-  useEffect(() => {
-    fetchSourceFile(file, fileStates, setFileStates);
-    return () => { };
-  }, [file]);
+  const setActiveTab = (tab: FileState) => {
+    for (const b of fileStates) {
+      b.active = b.title === tab.title;
+    }
+    setFileStates([...fileStates]);
+  };
 
   useEffect(() => {
     window.innerWidth > 700 &&
@@ -60,11 +46,31 @@ export default function Home() {
         </div>
         <div className="w-screen lg:w-[50vw] shadow-[-7px_0px_10px_1px_rgba(0,0,0,0.3)]">
           <Tab.Group>
-            <FileTabs setFile={setFile} fileStates={fileStates} />
-            <CodePanels userTheme={userTheme} fileStates={fileStates} />
+            <FileTabs setTab={setFileStates} tabs={fileStates} />
+            <CodePanels userTheme={userTheme} panels={fileStates} />
           </Tab.Group>
         </div>
       </section>
     </main>
   );
+}
+
+export function getStaticProps() {
+  const panels: FileStates = [];
+
+  for (const dir of ["components", "pages", "icons"]) {
+    const files = readdirSync(process.cwd() + `/${dir}`);
+    for (const file of files) {
+      const body = readFileSync(`${process.cwd()}/${dir}/${file}`, "utf8");
+      panels.push({
+        title: `${dir}/${file}`,
+        body,
+        active: false,
+      });
+    }
+  }
+
+  panels[0].active = true;
+
+  return { props: { files: panels } };
 }
