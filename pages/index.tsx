@@ -12,13 +12,6 @@ export default function Home({ files }: { files: FileStates }) {
   const [fileStates, setFileStates] = useState<FileStates>(files);
   const [userTheme, setUserTheme] = useState(dracula);
 
-  const setActiveTab = (tab: FileState) => {
-    for (const b of fileStates) {
-      b.active = b.title === tab.title;
-    }
-    setFileStates([...fileStates]);
-  };
-
   useEffect(() => {
     window.innerWidth > 700 &&
       setTimeout(

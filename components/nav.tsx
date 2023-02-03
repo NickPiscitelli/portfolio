@@ -15,7 +15,7 @@ export const Navbar = ({ themeSwitcher, userTheme }: any) => {
           <TerminalIcon />
         </div>
         <div className="text-xl text-white font-bold align-middle self-center pl-2">
-          {/* <HackerName /> */}
+          <HackerName />
         </div>
       </div>
 
