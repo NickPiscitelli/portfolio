@@ -15,12 +15,8 @@ const projects: string[] = [
   "Personal Github",   //    https://github.com/NickPiscitelli/
 ]
 
-// They really have everything now
-import { clone } from "deep-clone"
-import { extractSequence } from "human-genome"
-import { DNA } from "nick-piscitelli"
 
-export const myself = clone(extractSequence(DNA))
+export const myself = new Object()
   .setName("Nick Piscitelli")
   .setEmail("literallyanything@nickpiscitelli.com")
   .setOccupation("Cloud Architect");
