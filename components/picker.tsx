@@ -15,7 +15,13 @@ const fetchThemeVariable = (name: string) => {
   return (codeBlockThemes as any)[name];
 };
 
-const themes = [
+// Function to update CSS variables based on theme
+function updateThemeVariables(backgroundColor: string, textColor: string) {
+  document.documentElement.style.setProperty('--theme-bg', backgroundColor);
+  document.documentElement.style.setProperty('--theme-text', textColor);
+}
+
+export const themes = [
   "a11yLight",
   "anOldHope",
   "androidstudio",
@@ -57,17 +63,58 @@ const themes = [
   "zenburn",
 ];
 
-export const ThemePicker = ({ themeSwitcher, userTheme }: any) => {
+export const getRandomTheme = () => {
+  const randomIndex = Math.floor(Math.random() * themes.length);
+  return fetchThemeVariable(themes[randomIndex]);
+};
+
+interface ThemePickerProps {
+  themeSwitcher: (theme: any) => void;
+  userTheme: any;
+  darkerBackground?: string;
+}
+
+export const ThemePicker = ({ themeSwitcher, userTheme, darkerBackground }: ThemePickerProps) => {
+  const backgroundColor = userTheme?.backgroundColor || "#282a36";
+  const textColor = userTheme?.color || "#f8f8f2";
+  const bgColor = darkerBackground || backgroundColor;
+
   return (
-    <div className="pl-2 pr-2 ml-4 py-2 rounded font-sm bg-dracula">
+    <div
+      style={{
+        backgroundColor: bgColor,
+        border: `1px solid ${backgroundColor}`
+      }}
+      className="pl-2 pr-2 ml-4 py-2 rounded font-sm"
+    >
       <select
         onChange={(event) => {
-          themeSwitcher((codeBlockThemes as any)[event.target.value]);
+          const newTheme = (codeBlockThemes as any)[event.target.value];
+          themeSwitcher(newTheme);
+
+          // Update CSS variables when theme changes
+          updateThemeVariables(
+            newTheme?.backgroundColor || "#282a36",
+            newTheme?.color || "#f8f8f2"
+          );
         }}
-        className="text-white  bg-dracula ml-2"
+        style={{
+          backgroundColor: 'transparent',
+          color: textColor,
+          border: 'none',
+          outline: 'none'
+        }}
+        className="ml-2 cursor-pointer"
       >
         {themes.map((theme, i) =>
-          <option key={i} selected={shallowCompare(fetchThemeVariable(theme), userTheme)}>
+          <option
+            key={i}
+            selected={shallowCompare(fetchThemeVariable(theme), userTheme)}
+            style={{
+              backgroundColor: bgColor,
+              color: textColor
+            }}
+          >
             {theme}
           </option>
         )}

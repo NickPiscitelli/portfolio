@@ -1,4 +1,8 @@
-export const GithubIcon = () => {
+interface GithubIconProps {
+  color?: string;
+}
+
+export const GithubIcon = ({ color = "white" }: GithubIconProps) => {
   return (
     <svg
       version="1.2"
@@ -8,7 +12,7 @@ export const GithubIcon = () => {
       x="0px"
       y="0px"
       viewBox="0 0 2350 2314.8"
-      fill="white"
+      fill={color}
     >
       <path
         d="M1175,0C525.8,0,0,525.8,0,1175c0,552.2,378.9,1010.5,890.1,1139.7c-5.9-14.7-8.8-35.3-8.8-55.8v-199.8H734.4

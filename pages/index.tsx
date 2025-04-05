@@ -1,46 +1,36 @@
 import { Navbar } from "../components/nav";
 import { Tab } from "@headlessui/react";
-import { CodeBlock, dracula } from "react-code-blocks";
-import { useEffect, useState } from "react";
-import { Introduction } from "../intro/intro";
+import { hopscotch } from "react-code-blocks";
+import { useState } from "react";
 import { FileTabs } from "../components/tabs";
 import { CodePanels } from "../components/panels";
 import { readFileSync, readdirSync } from "fs";
-import { FileState, FileStates } from "../types";
+import { BlogState, BlogStates } from "../types";
+import { PreformattedText } from "../components/PreformattedText";
+import { markdownToHtml } from "../utils/markdown";
 
-export default function Home({ files }: { files: FileStates }) {
-  const [fileStates, setFileStates] = useState<FileStates>(files);
-  const [userTheme, setUserTheme] = useState(dracula);
+export default function Blog({ blogs }: { blogs: BlogState[] }) {
+  const [blogStates, setBlogStates] = useState<BlogState[]>([...blogs]);
+  const userTheme = hopscotch;
 
-  useEffect(() => {
-    window.innerWidth > 700 &&
-      setTimeout(
-        () =>
-          (
-            document.querySelector('[data-tab="pages/index.tsx"]') as any
-          ).click(),
-        500
-      );
-  }, []);
+  const setActiveTab = (tabs: BlogState[]) => {
+    setBlogStates(tabs);
+  };
+
+  // Get background color from theme
+  const backgroundColor = userTheme?.backgroundColor || "#282a36";
+
+  // Find the index of the Welcome tab
+  const defaultIndex = blogStates.findIndex(blog => blog.title === "Welcome");
 
   return (
-    <main>
-      <Navbar themeSwitcher={setUserTheme} userTheme={userTheme} />
-      <section className="code cf flex">
-        <div className="half-screen hidden md:block  h-full grow-0 shadow-inner shrink-0">
-          <CodeBlock
-            customStyle={{ borderRadius: 0 }}
-            text={`${Introduction}${"\n".repeat(50)}`}
-            theme={userTheme}
-            language={"tsx"}
-            showLineNumbers
-            wrapLines
-          />
-        </div>
-        <div className="w-screen lg:w-[50vw] shadow-[-7px_0px_10px_1px_rgba(0,0,0,0.3)]">
-          <Tab.Group>
-            <FileTabs setTab={setFileStates} tabs={fileStates} />
-            <CodePanels userTheme={userTheme} panels={fileStates} />
+    <main style={{ backgroundColor }}>
+      <Navbar userTheme={userTheme} />
+      <section className="code cf flex" style={{ backgroundColor }}>
+        <div className="w-screen shadow-[-7px_0px_10px_1px_rgba(0,0,0,0.3)]" style={{ backgroundColor }}>
+          <Tab.Group defaultIndex={defaultIndex >= 0 ? defaultIndex : 0}>
+            <FileTabs setTab={setActiveTab} tabs={blogStates} userTheme={userTheme} />
+            <CodePanels userTheme={userTheme} panels={blogStates} />
           </Tab.Group>
         </div>
       </section>
@@ -48,22 +38,31 @@ export default function Home({ files }: { files: FileStates }) {
   );
 }
 
-export function getStaticProps() {
-  const panels: FileStates = [];
+export async function getStaticProps() {
+  const blogs = [];
+  const files = readdirSync(process.cwd() + "/blog");
 
-  for (const dir of ["components", "pages", "icons"]) {
-    const files = readdirSync(process.cwd() + `/${dir}`);
-    for (const file of files) {
-      const body = readFileSync(`${process.cwd()}/${dir}/${file}`, "utf8");
-      panels.push({
-        title: `${dir}/${file}`,
-        body,
-        active: false,
-      });
-    }
+  for (const blog of files) {
+    const post = readFileSync(process.cwd() + "/blog/" + blog, "utf8");
+    const [title, body] = post.split("\n================\n");
+    console.log(title);
+    // Convert markdown to HTML
+    const htmlContent = await markdownToHtml(body);
+
+    blogs.push({
+      title,
+      body,
+      htmlContent,
+      active: title === "Welcome",
+    });
   }
 
-  panels[0].active = true;
+  // Sort blogs to ensure Welcome comes first, then alphabetically by title
+  blogs.sort((a, b) => {
+    if (a.title === "Welcome") return -1;
+    if (b.title === "Welcome") return 1;
+    return a.title.localeCompare(b.title);
+  });
 
-  return { props: { files: panels } };
+  return { props: { blogs } };
 }

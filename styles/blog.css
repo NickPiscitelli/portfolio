@@ -1,0 +1,86 @@
+/* Blog content styling */
+.blog-content {
+    line-height: 1.6;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+}
+
+.blog-content img {
+    max-width: 100%;
+    border-radius: 0.375rem;
+    margin: 1.5rem 0;
+}
+
+.blog-content pre {
+    border-radius: 0.375rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    overflow-x: auto;
+    background-color: var(--theme-bg);
+}
+
+.blog-content code {
+    font-family: 'Fira Code', monospace, Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono';
+    background-color: var(--theme-bg);
+}
+
+.blog-content blockquote {
+    border-left-width: 4px;
+    padding-left: 1rem;
+    font-style: italic;
+}
+
+.blog-content h1 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.blog-content h2 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.blog-content h3 {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.blog-content p {
+    margin-bottom: 1rem;
+}
+
+.blog-content a {
+    text-decoration: underline;
+}
+
+.blog-content ul,
+.blog-content ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-content ul {
+    list-style-type: disc;
+}
+
+.blog-content ol {
+    list-style-type: decimal;
+}
+
+/* Blog post metadata */
+.blog-metadata {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #44475a;
+    padding-bottom: 0.75rem;
+}
