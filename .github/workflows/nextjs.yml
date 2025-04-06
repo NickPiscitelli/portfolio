@@ -30,6 +30,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Pre-download actions
+        run: |
+          mkdir -p .github/actions/download
+          cd .github/actions/download
+          git clone --depth 1 https://github.com/actions/upload-artifact.git
+          cd upload-artifact
+          git checkout v3
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -96,4 +103,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
