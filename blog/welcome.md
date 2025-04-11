@@ -1,8 +1,3 @@
-Welcome
-================
-
-to my website
-
 ## About
 
 worlds best dad
@@ -15,3 +10,7 @@ literallyanything@nickpiscitelli.com
 
 - [Github](https://github.com/NickPiscitelli/)
 - [Glider.js](https://nickpiscitelli.github.io/Glider.js/)
+
+## Recent Posts
+
+View all posts in the [archive](/archive)

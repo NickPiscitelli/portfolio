@@ -5,9 +5,20 @@ import { useState } from "react";
 import { FileTabs } from "../components/tabs";
 import { CodePanels } from "../components/panels";
 import { readFileSync, readdirSync } from "fs";
-import { BlogState, BlogStates } from "../types";
+import { BlogState } from "../types";
 import { PreformattedText } from "../components/PreformattedText";
 import { markdownToHtml } from "../utils/markdown";
+
+type BlogPost = {
+  title: string;
+  body: string;
+  htmlContent?: string;
+  active?: boolean;
+  createdAt: Date;
+  slug: string;
+  formattedDate: string;
+  shortDate: string;
+};
 
 export default function Blog({ blogs }: { blogs: BlogState[] }) {
   const [blogStates, setBlogStates] = useState<BlogState[]>([...blogs]);
@@ -39,30 +50,96 @@ export default function Blog({ blogs }: { blogs: BlogState[] }) {
 }
 
 export async function getStaticProps() {
-  const blogs = [];
+  const allPosts: BlogPost[] = [];
   const files = readdirSync(process.cwd() + "/blog");
+  let welcomePost: BlogPost | undefined;
+  const otherPosts: BlogPost[] = [];
 
   for (const blog of files) {
-    const post = readFileSync(process.cwd() + "/blog/" + blog, "utf8");
-    const [title, body] = post.split("\n================\n");
-    console.log(title);
-    // Convert markdown to HTML
-    const htmlContent = await markdownToHtml(body);
+    const filePath = process.cwd() + "/blog/" + blog;
+    const post = readFileSync(filePath, "utf8");
+    const stats = require('fs').statSync(filePath);
 
-    blogs.push({
+    // Extract title from the first # heading or use filename as fallback
+    const titleMatch = post.match(/^#\s+(.+)$/m);
+    const title = titleMatch ? titleMatch[1] : blog.replace('.md', '');
+
+    const date = stats.birthtime;
+    const formattedDate = blog === 'welcome.md' ? '' :
+      `${date.toLocaleString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      })}`;
+
+    const shortDate = blog === 'welcome.md' ? '' :
+      `${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+
+    const blogPost: BlogPost = {
       title,
-      body,
-      htmlContent,
-      active: title === "Welcome",
-    });
+      body: post,
+      createdAt: stats.birthtime,
+      slug: blog.replace('.md', ''),
+      formattedDate,
+      shortDate
+    };
+
+    if (blog === 'welcome.md') {
+      welcomePost = blogPost;
+    } else {
+      otherPosts.push(blogPost);
+    }
   }
 
-  // Sort blogs to ensure Welcome comes first, then alphabetically by title
-  blogs.sort((a, b) => {
-    if (a.title === "Welcome") return -1;
-    if (b.title === "Welcome") return 1;
-    return a.title.localeCompare(b.title);
-  });
+  // Sort other posts by date
+  otherPosts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
-  return { props: { blogs } };
+  // Get the latest 3 posts
+  const recentPosts = otherPosts.slice(0, 3);
+
+  // Inject recent posts into welcome post
+  if (welcomePost) {
+    const recentPostsSection = recentPosts.map(post =>
+      `- [${post.title}](/blog/${post.slug}) - ${post.shortDate}`
+    ).join('\n');
+
+    welcomePost.body = welcomePost.body.replace(
+      /## Recent Posts[\s\S]*?(?=## Links)/m,
+      ''
+    ).replace(
+      /## Links[\s\S]*$/m,
+      `## Links
+
+- [Github](https://github.com/NickPiscitelli/)
+- [Glider.js](https://nickpiscitelli.github.io/Glider.js/)
+
+## Recent Posts
+
+${recentPostsSection}
+
+View all posts in the [archive](/archive)
+`
+    );
+  }
+
+  // Convert all posts to HTML
+  const finalBlogs = [welcomePost, ...otherPosts].filter((blog): blog is BlogPost => blog !== undefined);
+  const blogsWithHtml = await Promise.all(
+    finalBlogs.map(async (blog) => ({
+      ...blog,
+      htmlContent: await markdownToHtml(blog.body),
+      createdAt: blog.createdAt.toISOString(), // Serialize date for Next.js
+      formattedDate: blog.formattedDate,
+      shortDate: blog.shortDate
+    }))
+  );
+
+  return {
+    props: {
+      blogs: blogsWithHtml
+    }
+  };
 }

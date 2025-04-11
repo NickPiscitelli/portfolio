@@ -85,13 +85,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     const slug = params?.slug;
     const post = readFileSync(process.cwd() + "/blog/" + slug + ".md", "utf8");
-    const [title, body] = post.split("\n================\n");
+
+    // Extract title from the first # heading or use filename as fallback
+    const titleMatch = post.match(/^#\s+(.+)$/m);
+    const title = titleMatch ? titleMatch[1] : slug as string;
 
     return {
         props: {
             blog: {
                 title,
-                body,
+                body: post,
                 active: false,
                 slug: slug as string
             },

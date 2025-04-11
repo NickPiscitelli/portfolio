@@ -11,6 +11,8 @@ export type FileStates = FileState[];
 
 export type BlogState = BlockState & {
   htmlContent?: string;
+  formattedDate?: string;
+  shortDate?: string;
 };
 
 export type BlogStates = BlogState[];

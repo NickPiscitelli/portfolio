@@ -3,13 +3,14 @@ import React from 'react';
 interface BlogContentProps {
     html: string;
     title: string;
+    formattedDate?: string;
     theme?: {
         backgroundColor?: string;
         color?: string;
     };
 }
 
-export const BlogContent: React.FC<BlogContentProps> = ({ html, title, theme }) => {
+export const BlogContent: React.FC<BlogContentProps> = ({ html, formattedDate, theme }) => {
     const backgroundColor = theme?.backgroundColor || '#282a36';
     const textColor = theme?.color || '#f8f8f2';
 
@@ -21,11 +22,14 @@ export const BlogContent: React.FC<BlogContentProps> = ({ html, title, theme }) 
                 color: textColor,
             }}
         >
-            <div className="p-8 flex-1 flex flex-col">
-                <h1 className="text-3xl font-bold mb-4">{title}</h1>
-
+            <div className="pt-6 pb-8 px-8 flex-1 flex flex-col">
+                {formattedDate && (
+                    <div className="text-gray-400 text-sm mb-2 font-mono">
+                        {formattedDate}
+                    </div>
+                )}
                 <div
-                    className="prose prose-invert max-w-none flex-1"
+                    className="prose max-w-[625px] prose-invert max-w-none flex-1"
                     dangerouslySetInnerHTML={{ __html: html }}
                 />
             </div>

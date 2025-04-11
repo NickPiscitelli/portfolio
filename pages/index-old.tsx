@@ -102,10 +102,14 @@ export const getStaticProps = async () => {
 
   for (const blog of files) {
     const post = readFileSync(process.cwd() + "/blog/" + blog, "utf8");
-    const [title, body] = post.split("\n================\n");
+
+    // Extract title from the first # heading or use filename as fallback
+    const titleMatch = post.match(/^#\s+(.+)$/m);
+    const title = titleMatch ? titleMatch[1] : blog.replace('.md', '');
+
     blogs.push({
       title,
-      body,
+      body: post,
       active: false,
       slug: blog.replace(/\.md$/, "")
     });

@@ -31,10 +31,11 @@ export const CodePanels = ({
             } text-sm h-full flex-1 flex`}
           style={{ backgroundColor }}
         >
-          {isBlogContent && 'htmlContent' in tab && tab.htmlContent ? (
+          {isBlogContent && 'htmlContent' in tab ? (
             <BlogContent
-              html={tab.htmlContent}
+              html={tab.htmlContent || ''}
               title={tab.title}
+              formattedDate={tab.formattedDate}
               theme={userTheme}
             />
           ) : (

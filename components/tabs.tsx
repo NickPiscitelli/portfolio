@@ -35,10 +35,10 @@ export const FileTabs = ({ tabs, setTab, userTheme }: FileTabsProps) => {
               data-tab={tab.title}
               style={{
                 backgroundColor: selected ? darkerBackground : backgroundColor,
-                borderColor: `${backgroundColor}99`,
+                borderColor: `${darkerBackground}`,
                 color: textColor
               }}
-              className="outline-none text-left relative pl-8 py-3 grow min-w-[200px] border-r text-xs"
+              className="outline-none border-r text-left relative pl-8 py-3 grow min-w-[200px] border-r text-xs"
             >
               {tab.title}
               {selected && (
