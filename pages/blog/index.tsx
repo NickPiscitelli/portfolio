@@ -1,8 +1,8 @@
-import { Navbar } from "../components/nav";
+import { Navbar } from "../../components/nav";
 import { hopscotch } from "react-code-blocks";
 import { readFileSync, readdirSync } from "fs";
+import { GetStaticProps } from "next";
 import Link from "next/link";
-import { markdownToHtml } from "../utils/markdown";
 
 type BlogPost = {
     title: string;
@@ -14,7 +14,7 @@ type BlogsByYear = {
     [year: string]: BlogPost[];
 };
 
-export default function Archive({ blogsByYear }: { blogsByYear: BlogsByYear }) {
+export default function BlogIndex({ blogsByYear }: { blogsByYear: BlogsByYear }) {
     const userTheme = hopscotch;
     const backgroundColor = userTheme?.backgroundColor || "#282a36";
     const textColor = userTheme?.textColor || "#f8f8f2";
@@ -36,9 +36,9 @@ export default function Archive({ blogsByYear }: { blogsByYear: BlogsByYear }) {
                                             href={`/blog/${post.slug}`}
                                             className="hover:text-purple-400 transition-colors"
                                         >
-                                            <div className="flex justify-between items-baseline">
+                                            <div className="flex justify-between items-baseline gap-8">
                                                 <span className="text-lg">{post.title}</span>
-                                                <span className="text-sm text-gray-400">
+                                                <span className="text-sm text-gray-400 shrink-0">
                                                     {new Date(post.createdAt).toLocaleDateString()}
                                                 </span>
                                             </div>
@@ -53,12 +53,13 @@ export default function Archive({ blogsByYear }: { blogsByYear: BlogsByYear }) {
     );
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
     const blogs: BlogPost[] = [];
     const files = readdirSync(process.cwd() + "/blog");
 
     for (const blog of files) {
         if (blog === "welcome.md") continue; // Skip welcome post in archive
+        if (!blog.endsWith('.md')) continue;
 
         const filePath = process.cwd() + "/blog/" + blog;
         const post = readFileSync(filePath, "utf8");
@@ -91,4 +92,4 @@ export async function getStaticProps() {
             blogsByYear
         }
     };
-} 
+}; 

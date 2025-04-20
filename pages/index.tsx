@@ -120,7 +120,7 @@ export async function getStaticProps() {
 
 ${recentPostsSection}
 
-View all posts in the [archive](/archive)
+View all posts in the [blog](/blog)
 `
     );
   }
