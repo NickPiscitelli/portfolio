@@ -20,7 +20,7 @@ export default function BlogIndex({ blogsByYear }: { blogsByYear: BlogsByYear })
     const textColor = userTheme?.textColor || "#f8f8f2";
 
     return (
-        <main style={{ backgroundColor, color: textColor }} className="min-h-screen">
+        <main style={{ backgroundColor, color: textColor }} className="min-h-screen overflow-y-auto">
             <Navbar userTheme={userTheme} />
             <div className="max-w-4xl mx-auto px-4 py-12">
                 <h1 className="text-4xl font-mono mb-8">Blog Archive</h1>

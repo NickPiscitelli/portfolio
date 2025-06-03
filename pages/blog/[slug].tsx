@@ -12,7 +12,7 @@ export default function BlogPost({ blog }: { blog: BlogState }) {
     const backgroundColor = userTheme?.backgroundColor || "#282a36";
 
     return (
-        <main className="min-h-screen" style={{ backgroundColor }}>
+        <main className="min-h-screen overflow-y-auto" style={{ backgroundColor }}>
             <Navbar userTheme={userTheme} />
             <div className="max-w-6xl mx-auto px-4 py-12">
                 <div className="mb-8">
