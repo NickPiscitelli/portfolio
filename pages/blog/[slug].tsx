@@ -12,9 +12,9 @@ export default function BlogPost({ blog }: { blog: BlogState }) {
     const backgroundColor = userTheme?.backgroundColor || "#282a36";
 
     return (
-        <main className="min-h-screen overflow-y-auto" style={{ backgroundColor }}>
+        <div style={{ backgroundColor, minHeight: '100vh', maxWidth: '100vw', overflowX: 'hidden' }}>
             <Navbar userTheme={userTheme} />
-            <div className="max-w-6xl mx-auto px-4 py-12">
+            <article style={{ maxWidth: '48rem', margin: '0 auto', padding: '3rem 1rem', width: '100%', boxSizing: 'border-box' }}>
                 <div className="mb-8">
                     <Link href="/blog" className="inline-flex items-center text-gray-400 hover:text-purple-400 transition-colors">
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -24,9 +24,13 @@ export default function BlogPost({ blog }: { blog: BlogState }) {
                     </Link>
                 </div>
 
-                <div dangerouslySetInnerHTML={{ __html: blog.htmlContent || '' }} className="prose prose-lg prose-invert max-w-none" />
-            </div>
-        </main>
+                <div
+                    dangerouslySetInnerHTML={{ __html: blog.htmlContent || '' }}
+                    className="prose prose-invert blog-content"
+                    style={{ maxWidth: '100%', overflowWrap: 'break-word', wordBreak: 'break-word' }}
+                />
+            </article>
+        </div>
     );
 }
 
@@ -49,11 +53,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const slug = params?.slug;
     const post = readFileSync(process.cwd() + "/blog/" + slug + ".md", "utf8");
 
-    // Extract title from the first # heading or use filename as fallback
     const titleMatch = post.match(/^#\s+(.+)$/m);
     const title = titleMatch ? titleMatch[1] : slug as string;
 
-    // Convert markdown to HTML
     const htmlContent = await markdownToHtml(post);
 
     return {
@@ -67,4 +69,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             },
         },
     };
-}; 
+};
